@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'arenda_app/profile.css' %}">
+    <title>{{ title }} | room74 — Аренда отелей в Челябинске</title>
+</head>
+<body>
+        {% include 'profile_menu.html' %}
+        <!-- Правая колонка: Основной контент -->
+        <main>
+            <!-- Блок лояльности -->
+
+            <!-- Блок 1: Личные данные -->
+            <div class="card">
+                <h2 class="section-title">Личные данные</h2>
+                <div class="info-grid">
+                    {% if profile.correct_profile is True %}
+                    <div class="info-item">
+                        <label>ФИО</label>
+                        <p>{{ profile.surname }} {{ profile.first_name }} {{ profile.last_name }}</p>
+                    </div>
+                    <div class="info-item">
+                        <label>Телефон</label>
+                        <p>{{ profile.phone }}</p>
+                    </div>
+                    <div class="info-item">
+                        <label>E-mail</label>
+                        <p>{{ profile.email }}</p>
+                    </div>
+                    <div class="info-item">
+                        <label>Основной город</label>
+                        <p>{{ profile.recomend_city }}</p>
+                    </div>
+                </div>
+                {% else %}
+                <div class="info-grid">
+                    <label>Закончите заполнения профиля. Перейдите в "Настройки аккаунта"</label>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Блок 2: Предстоящие и текущие бронирования -->
+            <div class="card">
+                <h2 class="section-title">Мои бронирования</h2>
+                
+                <!-- Предстоящее -->
+                <div class="booking-card upcoming">
+                    <div class="booking-details">
+                        <h4>Отель «Видгоф» ★★★★★</h4>

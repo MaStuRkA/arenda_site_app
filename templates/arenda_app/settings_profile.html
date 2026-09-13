@@ -1,0 +1,300 @@
+{% load static %}
+{% include 'profile_menu.html' %}
+
+<style>
+    /* Белая карточка подложки (добавьте в начало файла) */
+.settings-card {
+    background-color: #ffffff;
+    border-radius: 16px;
+    padding: 32px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02); /* Легкая мягкая тень */
+    max-width: 800px; /* Ограничение максимальной ширины блока */
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Ограничение ширины полей, чтобы они не растягивались на весь белый экран */
+.form-input, 
+.form-select,
+.select-wrapper,
+.email-input-row {
+    max-width: 540px;
+}
+
+    /* Общие настройки шрифта для блока */
+.account-settings-container {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: #4a5568;
+}
+
+.settings-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1a202c;
+    margin-bottom: 24px;
+    letter-spacing: -0.5px;
+}
+
+/* Стилизация форм и групп полей */
+.settings-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.personal-data-form {
+    margin-bottom: 32px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid #edf2f7;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: #a0aec0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Базовые инпуты и селекты */
+.form-input, 
+.form-select {
+    width: 100%;
+    max-width: 540px;
+    padding: 12px;
+    font-size: 14px;
+    color: #2d3748;
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    box-sizing: border-box;
+    transition: all 0.2s ease;
+}
+
+.form-input::placeholder {
+    color: #a0aec0;
+}
+
+.form-input:focus, 
+.form-select:focus {
+    outline: none;
+    border-color: #3182ce;
+    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.15);
+}
+
+/* Кастомная стрелочка для селекта */
+.select-wrapper {
+    position: relative;
+    max-width: 540px;
+}
+
+.form-select {
+    max-width: 100%;
+    appearance: none;
+    -webkit-appearance: none;
+    padding-right: 40px;
+    cursor: pointer;
+}
+
+.select-wrapper::after {
+    content: "";
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 10px;
+    height: 6px;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://w3.org' viewBox='0 0 24 24' fill='none' stroke='%23718096' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-size: contain;
+    background-repeat: no-repeat;
+    pointer-events: none;
+}
+
+/* Строка для инпута почты и кнопки */
+.email-input-row {
+    display: flex;
+    gap: 12px;
+    max-width: 540px;
+}
+
+.email-input-row .form-input {
+    max-width: 100%;
+    flex-grow: 1;
+}
+
+/* Кнопки */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 12px 24px;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+}
+
+.btn:active {
+    transform: scale(0.98);
+}
+
+.btn-primary {
+    background-color: #2b4c7e;
+    color: #ffffff;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.btn-primary:hover {
+    background-color: #1e3559;
+}
+
+.btn-secondary {
+    background-color: #ebf8ff;
+    color: #2b6cb0;
+    border: 1px solid #bee3f8;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.btn-secondary:hover {
+    background-color: #dee3f8;
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 576px) {
+    .email-input-row {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .btn {
+        width: 100%;
+    }
+}
+
+</style>
+{% if messages %}
+    <div id="django-messages-container" class="messages-wrapper">
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                <span class="alert-icon">⚠️</span>
+                <span class="alert-text">{{ message.message }}</span>
+                <button type="button" class="alert-close" onclick="this.parentElement.remove()">×</button>
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+<div class="settings-card">
+    <div class="account-settings-container">
+        <h2 class="settings-title">Настройки аккаунта</h2>
+        {% if user.correct_profile is False %}
+        <!-- ================= ФОРМА №1: ФИО И ГОРОД ================= -->
+        <form method="POST" class="settings-form personal-data-form">
+            <!-- В Django сюда вставляется {% csrf_token %} -->
+            {% csrf_token %}
+            <div class="form-group">
+                <label class="form-label">Фамилия</label>
+                <input type="text" name="surname" placeholder="Введите фамилию" class="form-input">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Имя</label>
+                <input type="text" name="firstname" placeholder="Введите имя" class="form-input">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Отчество</label>
+                <input type="text" name="last_name" placeholder="Введите отчество" class="form-input">
+            </div>
+                <div class="form-group">
+                <label class="form-label">Телефон</label>
+                <input type="text" name="phone" placeholder="Введите телефон" class="form-input">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Город</label>
+                <div class="select-wrapper">
+                    <select name="city" class="form-select">
+                        <option value="msk">Москва</option>
+                        <option value="spb">Санкт-Петербург</option>
+                        <option value="ekb">Екатеринбург</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" name="submit_personal_data" class="btn btn-primary">
+                    Сохранить изменения
+                </button>
+            </div>
+        </form>
+        {% else %}
+        <form method="POST" class="settings-form personal-data-form">
+            <!-- В Django сюда вставляется {% csrf_token %} -->
+            {% csrf_token %}
+            <div class="form-group">
+                <label class="form-label">Фамилия</label>
+                <input type="text" name="surname" placeholder="Введите фамилию" class="form-input" value="{{ user.surname }}">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Имя</label>
+                <input type="text" name="firstname" placeholder="Введите имя" class="form-input" value="{{ user.first_name }}">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Отчество</label>
+                <input type="text" name="last_name" placeholder="Введите отчество" class="form-input" value="{{ user.last_name }}">
+
+            </div>
+                <div class="form-group">
+                <label class="form-label">Отчество</label>
+                <input type="number" name="phone" placeholder="Введите телефон" class="form-input" value="{{ user.phone }}">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Город</label>
+                <div class="select-wrapper">
+                    <select name="city" class="form-select">
+                        <option value="{{ user.recomend_city }}">{{ user.recomend_city }}</option>
+                        <option value="msk">Москва</option>
+                        <option value="spb">Санкт-Петербург</option>
+                        <option value="ekb">Екатеринбург</option>
+                    </select>
+                </div>
+            </div>
+                       <div class="form-actions">
+                <button type="submit" name="submit_personal_data" class="btn btn-primary">
+                    Сохранить изменения
+                </button>
+            </div>
+            </form>
+            {% endif %}
+        {% if user.confirm_email is False %}
+        <!-- ================= ФОРМА №2: ВЕРИФИКАЦИЯ EMAIL ================= -->
+        <form method="POST" class="settings-form email-form">
+            <!-- В Django сюда вставляется {% csrf_token %} -->
+            {% csrf_token %}
+            <div class="form-group">
+                <label class="form-label">Электронная почта</label>
+                <div class="email-input-row">
+                    <input type="email" name="email" value="{{ user.email }}" placeholder="Введите email" class="form-input">
+                    <button type="submit" name="submit_email_verification" class="btn btn-secondary">
+                        Подтвердить почту
+                    </button>
+                </div>
+            </div>
+        </form>
+        {% else %}
+            <p>Почта подтверждена! </p>
+        {% endif %}
+    </div>
+</div>

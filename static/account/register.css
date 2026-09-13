@@ -1,0 +1,178 @@
+/* Базовые настройки */
+body {
+    font-family: "Noto Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    font-variation-settings: "wdth" 100;
+    background-color: #f7f7f7; /* Перенесли из HTML */
+    margin: 0;
+    padding: 0;
+}
+
+/* Контейнер формы */
+.form-cnt {
+    position: relative;
+    max-width: 700px;
+    margin: 150px auto 0; /* Объединили top и margin */
+    overflow: hidden;
+    border-radius: 8px;
+    min-height: 620px;
+    box-shadow: 0 4px 20px rgba(30, 80, 150, 0.15);
+}
+
+/* Белая плашка с полями */
+.label-inputs-button {
+    position: relative;
+    z-index: 2;
+    padding: 50px; /* Увеличили внутренние отступы */
+    background-color: white;
+    min-height: 620px;
+    width: 370px;
+    box-sizing: border-box; /* Чтобы padding не раздувал ширину */
+    /* Используем Flexbox для автоматического распределения элементов вниз */
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Фиксированный отступ между полями */
+}
+
+/* Заголовок формы */
+.reg-label {
+    margin-top:40px;
+    font-size: 22px;
+    margin-bottom: 29px;
+    text-align: center;
+}
+
+/* Группировка инпута и лейбла (рекомендуется обернуть в HTML, см. ниже) */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+/* Общие стили для инпутов */
+input {
+    width: 260px; /* Занимает всю ширину родителя form-group */
+    padding: 5px;
+    outline: none;
+    border: 1px solid grey; /* Исправлен синтаксис (убраны запятые) */
+    border-radius: 4px;
+    box-sizing: border-box;
+    transition: border-color 0.3s;
+}
+
+input:focus {
+    border-color: #1E5096;
+}
+
+/* Кнопка */
+.button-submit {
+    margin-top: 15px;
+    width: 100%;
+    height: 30px;
+    border: 2px solid #1E5096;
+    background-color: #5d90f5;
+    border-radius: 4px;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.button-submit:hover {
+    color: #1E5096;
+    background-color: white;
+}
+
+/* Слои заднего фона (остались без изменений) */
+.form-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-size: cover;
+    background-position: center;
+    transition: opacity 2000ms ease-in-out;
+    z-index: 1;
+}
+
+.bg-1 {
+    background-image: linear-gradient(rgba(50, 130, 200, 0.4), rgba(30, 80, 150, 0.5)), url('/static/media_img/formbg.jpg');
+    opacity: 1;
+}
+
+.bg-2 {
+    background-image: linear-gradient(rgba(50, 130, 200, 0.4), rgba(30, 80, 150, 0.5)), none;
+    opacity: 0;
+}
+
+.logo_name_site{
+    position:absolute;
+    z-index:3;
+    width:10px;
+    left:40px;
+}
+
+
+.logo{
+    position:absolute;
+    padding:5px;
+    width:25px;
+    height:25px;
+    top:10px;
+    left:-34px;
+    user-select:none;
+}
+
+.name_site{
+    font-family: "Noto Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 100;
+    font-style: normal;
+    font-variation-settings:
+    "wdth" 100;
+}
+
+
+.login {
+    z-index: 3;
+    position: absolute;
+    margin-top: -90px;
+    padding: 20px;
+    width: 300px;
+}
+
+/* Контейнер для текста ошибки */
+.error-message {
+    color: #d9534f; /* Красный цвет для предупреждения */
+    font-size: 13px;
+    margin-top: 5px;
+}
+
+/* Очищаем дефолтные маркеры списков Django-ошибок */
+.error-message ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.error-message li {
+    margin-bottom: 2px;
+}
+
+/* Стили для общих ошибок формы сверху */
+.non-field-errors {
+    background-color: #f2dede;
+    color: #a94442;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    font-size: 14px;
+}
+.non-field-errors ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}

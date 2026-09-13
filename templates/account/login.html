@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'account/login.css' %}">
+    <title>Вход</title>
+
+</head>
+<body bgcolor="#f7f7f7">
+    <form method="post" class="slider-form">
+        <div class="logo_name_site"><img src="{% static 'media_img/logo_cirlce_arenda.png' %}" class="logo"><h3 class="name_site">room74</h3></div>
+        {% csrf_token %}
+        <label class="label_login">Вход</label>
+    {% if messages %}
+        <div class="messages" style="color: red; margin-bottom: 10px;">
+            {% for message in messages %}
+                <p>{{ message }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+        <div class="form-content">
+            <label class="label_email">Почта</label>
+            {{ form.email }}
+            <label class="label_password">Пароль</label>
+            {{ form.password }}
+            <button class="button_login">Войти</button>
+            <a href="{% url 'account:reset_form' %}" class="reset_password">Забыли пароль?</a>
+            <div class="div-register-link">
+            <label>Не создавали личный кабинет? Создайте прямо сейчас!</label>
+            <a href="{% url 'account:register' %}">Регистрация</a>
+            </div>
+        </div>
+        <div class="form-bg bg-1"></div>
+    <div class="form-bg bg-2"></div>
+    </form>
+<script>
+    // Список ваших картинок
+    const images = [
+        '/static/media_img/formbg.jpg',
+        '/static/media_img/formbg2.jpeg',
+        '/static/media_img/formbg3.jpeg'
+    ];
+
+    let currentIndex = 0;
+    const bg1 = document.querySelector('.bg-1');
+    const bg2 = document.querySelector('.bg-2');
+    const filter = 'linear-gradient(rgba(50, 130, 200, 0.4), rgba(30, 80, 150, 0.5))';
+
+    // Флаг, который показывает, какой слой сейчас сверху
+    let isBg1Active = true;
+
+    function changeBackground() {
+        // Вычисляем индекс следующей картинки
+        currentIndex = (currentIndex + 1) % images.length;
+        const nextImageUrl = `${filter}, url('${images[currentIndex]}')`;
+
+        if (isBg1Active) {
+            // Если активен первый: загружаем во второй новую картинку и проявляем его
+            bg2.style.backgroundImage = nextImageUrl;
+            bg2.style.opacity = 1;
+            bg1.style.opacity = 0; // Первый плавно исчезает
+        } else {
+            // Если активен второй: загружаем в первый новую картинку и проявляем его
+            bg1.style.backgroundImage = nextImageUrl;
+            bg1.style.opacity = 1;
+            bg2.style.opacity = 0; // Второй плавно исчезает
+        }
+
+        // Меняем флаг активности слоев
+        isBg1Active = !isBg1Active;
+    }
+
+    // Запускаем переключение каждые 15 секунд
+    setInterval(changeBackground, 7000);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>Смена пароля</title>
+    <link rel="stylesheet" href="{% static 'account/email_form_reset.css' %}">
+</head>
+<body>
+    <form method="post" class="form-class">
+    <div class="logo_name_site"><img src="{% static 'media_img/logo_cirlce_arenda.png' %}" class="logo"><h3 class="name_site">room74</h3></div>
+      {% csrf_token %}
+          {% if form.email.errors %}
+        <div class="alert-alert-danger">
+            {% for error in form.email.errors %}
+                <p>{{ error }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+      <div class="div-input-button-form">
+        <label>Введите почту </label>
+        {{ form.email }}
+        <button type="submit">Отправить</button>
+        </div>
+    </form>
+</body>
+</html>

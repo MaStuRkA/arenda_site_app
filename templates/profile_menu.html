@@ -1,0 +1,65 @@
+    <!-- Шапка личного кабинета -->
+     {% load static %}
+    <link rel="stylesheet" href="{% static 'profile_menu.css' %}">
+    <header class="header">
+        <a href="{% url 'arenda_app:home' %}" id="home_button">Главная</a>
+        <div class="logo">room<span>74</span></div>
+        <div>Личный кабинет</div>
+    </header>
+    <div class="container">
+        <!-- Левая колонка: Профиль и Меню -->
+        <aside>
+            <div class="card profile-sidebar">
+                <div class="avatar">👨‍💻</div>
+                <h3 class="user-name">{{ user.username }}</h3>
+                {% if user.confirm_email is True %}
+                    <span class="user-status">✓ Аккаунт подтвержден</span>
+                {% else %}
+                    <span class="user-status-error">✓ Аккаунт не подтвержден</span>
+                {% endif %}
+                <ul class="nav-menu">
+                    <li><a href="{% url 'arenda_app:profile' %}" class="{% if class == 'profile' %}active{% endif %}">Личные данные</a></li>
+                    <li><a href="#">Мои бронирования</a></li>
+                    <li><a href="{% url 'arenda_app:hotels_like' %}">Избранные отели</a></li>
+                    <li><a href="{% url 'arenda_app:settings' %}" class="{% if class == 'settings' %}active{% endif %}">Настройки аккаунта</a></li>
+                    <li><div class="border-t border-gray-100 my-3 pt-3">
+    <!-- Скрытая форма для безопасного выхода -->
+    <form action="{% url 'arenda_app:logout' %}" method="POST" id="logout-form" style="display: none;">
+        {% csrf_token %}
+    </form>
+    
+    <!-- Кнопка, которая выглядит как ссылка, но отправляет форму через JavaScript -->
+    <a href="#" 
+       onclick="event.preventDefault(); document.getElementById('logout-form').submit();" 
+       class="block text-red-400 hover:text-red-600 hover:bg-red-50/50 py-2.5 px-3 rounded-xl transition-all">
+        Выйти из системы
+    </a>
+</div></li>
+                </ul>
+            </div>
+        </aside>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Находим контейнер с сообщениями
+        const messagesContainer = document.getElementById('django-messages-container');
+        
+        if (messagesContainer) {
+            // Ищем все плашки уведомлений внутри него
+            const alerts = messagesContainer.querySelectorAll('.alert');
+            
+            alerts.forEach(function(alert) {
+                // Через 9.5 секунд (9500 мс) запускаем плавное исчезновение CSS
+                setTimeout(function() {
+                    alert.classList.add('alert-fade-out');
+                }, 9500);
+
+                // Через 10 секунд (10000 мс) полностью удаляем элемент из DOM
+                setTimeout(function() {
+                    alert.remove();
+                }, 10000);
+            });
+        }
+    });
+</script>
+

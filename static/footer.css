@@ -1,0 +1,85 @@
+/* Стили для Варианта 1 */
+.site-footer {
+  font-family: system-ui, -apple-system, sans-serif;
+  background-color: #ffffff;
+  color: #333333;
+  padding: 60px 0 30px 0;
+  border-top: 1px solid #e2e8f0; /* Тонкая серая линия, как под шапкой */
+  margin-top: 80px;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 40px;
+}
+
+.footer-brand {
+  max-width: 300px;
+}
+
+.footer-logo {
+  font-size: 24px;
+  font-weight: bold;
+  color: #4b31e0; /* Фирменный фиолетовый */
+}
+
+.footer-logo .logo-accent {
+  color: #333333;
+}
+
+.footer-tagline {
+  font-size: 14px;
+  color: #64748b;
+  margin-top: 12px;
+  line-height: 1.5;
+}
+
+.footer-links {
+  display: flex;
+  gap: 60px;
+  flex-wrap: wrap;
+}
+
+.footer-col h4 {
+  font-size: 16px;
+  font-weight: 60px;
+  color: #1e293b;
+  margin-bottom: 20px;
+}
+
+.footer-col ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-col ul li {
+  margin-bottom: 12px;
+}
+
+.footer-col ul li a {
+  font-size: 14px;
+  color: #64748b;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+/* Эффект наведения с использованием фирменного цвета кнопок */
+.footer-col ul li a:hover {
+  color: #4b31e0; 
+}
+
+.footer-bottom {
+  max-width: 1200px;
+  margin: 40px auto 0 auto;
+  padding: 20px 20px 0 20px;
+  border-top: 1px solid #e2e8f0;
+  font-size: 13px;
+  color: #94a3b8;
+  text-align: center;
+}

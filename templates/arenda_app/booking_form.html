@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Бронирование номера — room74</title>
+    <style>
+        :root {
+            --primary-color: #5c34e4;
+            --primary-hover: #4a28c7;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.5;
+        }
+
+        /* Шапка сайта в стиле room74 */
+        .header {
+            background: var(--card-bg);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+        .logo span {
+            color: var(--primary-color);
+        }
+
+        .user-nav {
+            display: flex;
+            gap: 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        .user-nav a {
+            text-decoration: none;
+            color: var(--text-muted);
+            transition: color 0.2s;
+        }
+
+        .user-nav a:hover, .user-nav a.active {
+            color: var(--text-main);
+        }
+
+        /* Основной контейнер */
+        .container {
+            max-width: 1100px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Карточка отеля/комнаты */
+        .room-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05);
+            border: 1px solid var(--border-color);
+        }
+
+        .room-image {
+            width: 100%;
+            height: 350px;
+            background: #e2e8f0;
+            object-fit: cover;
+        }
+
+        .room-details {
+            padding: 2rem;
+        }
+
+        .room-title {
+            font-size: 1.75rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .room-location {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .divider {
+            height: 1px;
+            background: var(--border-color);
+            margin: 1.5rem 0;
+        }
+
+        /* Форма бронирования (под модель Django) */
+        .booking-sidebar {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05);
+            border: 1px solid var(--border-color);
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+
+        .price-per-night {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+        .price-per-night span {
+            font-size: 0.9rem;
+            font-weight: normal;
+            color: var(--text-muted);
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+            color: var(--text-muted);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 1rem;
+            color: var(--text-main);
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-input:focus {
+            border-color: var(--primary-color);
+        }
+
+        /* Информационный блок стоимости */
+        .price-summary {
+            background: var(--bg-color);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .price-total {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 700;
+            font-size: 1.1rem;
+            border-top: 1px solid var(--border-color);
+            padding-top: 0.5rem;
+            margin-top: 0.5rem;
+            color: var(--text-main);
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 1.5rem;
+            transition: background 0.2s;
+        }
+
+        .submit-btn:hover {
+            background: var(--primary-hover);
+        }
+        /* Контейнер для кнопок, задает отступы */
+        /* Контейнер для кнопок — выстраивает их в один аккуратный ряд */
+        .booking-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;          /* Расстояние между кнопками */
+            margin-top: 1.5rem;    /* Отступ сверху от блока цен */
+            width: 100%;
+        }
+
+        /* Главная кнопка "Забронировать" (вместо старого .submit-btn) */
+        .submit-btn {
+            flex: 1;               /* Занимает всё основное пространство */
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+        }
+
+        .submit-btn:hover {
+            background: var(--primary-hover);
+        }
+
+        .submit-btn:active {
+            transform: scale(0.98); /* Легкий эффект нажатия */
+        }
+
+        /* Новая аккуратная кнопка "Добавить в корзину" в ряд с главной */
+        .cart-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+            color: var(--primary-color);            
+            border: 2px solid var(--border-color); /* Изначально нейтральная рамка */
+            width: 50px;                           /* Делаем её квадратной под высоту инпутов */
+            height: 50px;                          
+            border-radius: 8px;
+            font-size: 1.2rem;                     /* Размер иконки 🛒 */
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .cart-btn:hover {
+            background-color: #f5f3ff;             /* Легкий фиолетовый фон при наведении */
+            border-color: var(--primary-color);    /* Рамка становится фирменного цвета */
+            transform: translateY(-1px);
+        }
+
+        .cart-btn:active {
+            transform: translateY(0);
+        }
+
+
+    </style>
+</head>
+<body>
+    
+    
+    {% include 'header.html' %}
+
+<main class="container">
+        <!-- Левая часть: информация о номере -->
+        <section class="room-card">
+            <img class="room-image" src="{{ hotel.img.url }}" alt="Radisson Blu Hotel">
+            
+            <div class="room-details">
+                <h1 class="room-title">{{ hotel.name }}</h1>
+                <p class="room-location">📍{{ hotel.address }}</p>
+                
+                <div class="divider"></div>
+                
+                <h3>{{ room_type.name }}</h3>
+                <p style="color: var(--text-muted); margin-top: 0.5rem;">
+                    {{ room_type.description }}
+                </p>
+
+                <!-- ВСТАВЛЕННЫЕ ПАРАМЕТРЫ КОМНАТЫ -->
+                <div class="room-meta" style="margin-top: 1rem; font-size: 0.95rem; color: var(--text-muted); display: flex; gap: 1.5rem; flex-wrap: wrap;">
+                    <div><strong>Номер:</strong> <span style="color: #000;">{{ room.number }}</span></div>
+                    
+                    {% if room.floor %}
+                        <div><strong>Этаж:</strong> <span style="color: #000;">{{ room.floor }}</span></div>
+                    {% endif %}
+                    
+                    <div>
+                        <strong>Статус:</strong> 
+                        {% if room.status == 'available' %}
+                            <span style="color: #28a745; font-weight: 600;">Доступен</span>
+                        {% elif room.status == 'maintenance' %}
+                            <span style="color: #fd7e14; font-weight: 600;">Ремонт/Обслуживание</span>
+                        {% else %}
+                            <span style="color: #dc3545; font-weight: 600;">{{ room.get_status_display }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+                <!-- КОНЕЦ ВСТАВКИ -->
+
+            </div>
+        </section>
+
+        <!-- Правая часть: форма создания Booking -->
+        <aside class="booking-sidebar">
+            <div class="price-per-night">
+                <span id="base-price">{{ room_type.base_price }}</span> ₽ <span>/ сутки</span>
+            </div>
+
+            <!-- Имена полей name совпали с атрибутами модели Booking -->
+            <form method="POST">
+                {% csrf_token %}
+                
+                <!-- Скрытое поле для передачи посчитанной цены в Django -->
+                <input type="hidden" name="total_price" id="id_total_price" value="0.00">
+
+                <!-- Поля дат -->
+                <div class="form-group">
+                    <label class="form-label" for="id_check_in">Дата заезда (check_in)</label>
+                    <input type="date" id="id_check_in" name="check_in" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="id_check_out">Дата выезда (check_out)</label>
+                    <input type="date" id="id_check_out" name="check_out" class="form-input" required>
+                </div>
+
+                <!-- Базовая цена за сутки (скрипт ищет её здесь) -->
+                <span id="base-price" style="display:none;">1200.00</span>
+
+                <!-- Вывод инфо -->
+                <p>Количество суток: <span id="days-count">0</span></p>
+                <p>Итого: <span id="total-price-display">0.00</span> ₽</p>
+
+                <!-- Кнопки управления -->
+                <div class="booking-actions">
+                    <!-- Главная кнопка отправки формы -->
+                    <button type="submit" class="submit-btn" name="Booking">Забронировать</button>
+                    
+                    <!-- Кнопка корзины для работы с JS-скриптом -->
+                    <button type="button" id="btn-add-to-cart" class="cart-btn" title="Добавить в корзину" name="Basket">
+                        🛒
+                    </button>
+                </div>
+            </form>
+        </aside>
+    </main>
+
+
+    <script>
+        
+        const checkInInput = document.getElementById('id_check_in');
+        const checkOutInput = document.getElementById('id_check_out');
+        const daysCountDisplay = document.getElementById('days-count');
+        const totalPriceDisplay = document.getElementById('total-price-display');
+        const totalPriceHidden = document.getElementById('id_total_price');
+        const basePrice = parseFloat(document.getElementById('base-price').innerText);
+
+        // Блокируем прошлые даты для заезда
+        const today = new Date().toISOString().split('T')[0];
+        checkInInput.min = today;
+
+        function calculatePrice() {
+            const checkInDate = new Date(checkInInput.value);
+            const checkOutDate = new Date(checkOutInput.value);
+
+            if (checkInInput.value) {
+                checkOutInput.min = checkInInput.value;
+            }
+
+            if (checkInInput.value && checkOutInput.value && checkOutDate > checkInDate) {
+                const timeDiff = checkOutDate.getTime() - checkInDate.getTime();
+                const daysCount = Math.ceil(timeDiff / (1000 * 3600 * 24));
+                
+                const totalPrice = daysCount * basePrice;
+
+                daysCountDisplay.innerText = daysCount;
+                totalPriceDisplay.innerText = totalPrice.toFixed(2);
+                totalPriceHidden.value = totalPrice.toFixed(2);
+            } else {
+                daysCountDisplay.innerText = '0';
+                totalPriceDisplay.innerText = '0.00';
+                totalPriceHidden.value = '0.00';
+            }
+        }
+
+        checkInInput.addEventListener('change', calculatePrice);
+        checkOutInput.addEventListener('change', calculatePrice);
+
+
+    // ==========================================
+    // ЛОГИКА ДЛЯ КНОПКИ "ДОБАВИТЬ В КОРЗИНУ"
+    // ==========================================
+    const addToCartBtn = document.getElementById('btn-add-to-cart');
+
+    if (addToCartBtn) {
+        addToCartBtn.addEventListener('click', function(event) {
+            // Проверяем, выбраны ли даты перед добавлением в корзину
+            if (!checkInInput.value || !checkOutInput.value || new Date(checkOutInput.value) <= new Date(checkInInput.value)) {
+                alert('Пожалуйста, выберите корректные даты заезда и выезда!');
+                return;
+            }
+
+            // Собираем данные для отправки в корзину
+            const data = {
+                check_in: checkInInput.value,
+                check_out: checkOutInput.value,
+                total_price: totalPriceHidden.value
+            };
+                const apiUrl = `${window.location.pathname}api/basket/`;
+                    // Внутри вашего js-файла замените fetch('booking/', { ... }) на:
+            fetch(apiUrl, { 
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(res => {
+            if (res.status === 'success') {
+                alert('Комната успешно добавлена в корзину!');
+                
+                // Перенаправляем пользователя на страницу корзины средствами JS
+                window.location.href = '/basket/'; 
+            } else {
+                alert('Ошибка: ' + res.message);
+            }
+        })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Произошла ошибка при добавлении в корзину.');
+            });
+        });
+    }
+</script>
+
+</body>
+</html>

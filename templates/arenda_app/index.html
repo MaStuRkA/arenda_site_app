@@ -1,0 +1,94 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'arenda_app/index.css' %}">
+{% include 'header.html' %}
+<main class="container">
+  {% for obj in hotels %}
+    {% for type_obj in obj.room_types.all %} <!-- Исправлено: берем типы номеров текущего отеля obj -->
+      <div class="hotel-card"> <!-- Перенесено внутрь циклов -->
+        
+        <div class="hotel-image">
+          <!-- Чтобы картинка тоже была динамической, лучше использовать obj.image.url -->
+          <img src="{{ obj.img.url }}" alt="{{ obj.name }}">
+        </div>
+ <!-- Меняем id на class="like-form" -->
+        <form class="like-form" method="POST" action="{% url 'arenda_app:like_hotel' obj.id %}">
+            {% csrf_token %}
+            <button type="submit" class="like-btn" style="background:none; border:none; font-size:24px; cursor:pointer;">
+              {% if obj.id in data_liked %}
+              <span class="like-icon">❤️</span>
+              {% else %}
+              <span class="like-icon">🤍</span>
+              {% endif %}
+  
+  
+            </button>
+        </form>
+        <div class="hotel-info">
+          <h3 class="hotel-name">{{ obj.name }}</h3>
+          <p class="room-type">{{ type_obj.name }}</p>
+          <p class="hotel-address">{{ obj.address }}</p>
+        </div>
+        
+        <div class="hotel-actions">
+          <div class="rating-tag">⭐ {{ obj.stars }}</div>
+          <div class="price-block">
+            <span class="price-value">{{ type_obj.base_price }}</span>
+            <span class="price-period">/ сутки</span>
+          </div>
+          <a class="book-btn" href="{{ type_obj.get_absolute_url }}">Забронировать</a>
+        </div>
+        
+      </div> <!-- Закрываем карточку здесь -->
+    {% endfor %}
+  {% endfor %}
+</main>
+<script>
+  
+document.addEventListener('DOMContentLoaded', function() {
+    // Находим ВСЕ формы лайков по CSS-классу
+    const likeForms = document.querySelectorAll('.like-form');
+    
+    likeForms.forEach(function(form) {
+        form.addEventListener('submit', function(event) {
+            // Отменяем стандартный переход для КАЖДОЙ формы
+            event.preventDefault(); 
+
+            const url = this.getAttribute('action');
+            const csrfToken = this.querySelector('[name=csrfmiddlewaretoken]').value;
+            
+            // Ищем иконку сердечка ТОЛЬКО внутри текущей отправленной формы
+            const likeIcon = this.querySelector('.like-icon');
+
+            // Отправляем асинхронный AJAX-запрос
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': csrfToken,
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Ошибка сети или сервера');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Меняем сердечко конкретно в той карточке, на которую нажали
+                if (data.liked) {
+                    likeIcon.textContent = '❤️'; 
+                } else {
+                    likeIcon.textContent = '🤍'; 
+                }
+            })
+            .catch(error => console.error('Ошибка при отправке лайка:', error));
+        });
+    });
+});
+
+
+
+</script>
+
+{% include 'footer.html' %}

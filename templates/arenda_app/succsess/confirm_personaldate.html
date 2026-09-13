@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    {% load static %}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>room74 — Данные успешно обновлены</title>
+    <!-- Подключаем шрифт Inter для соответствия общему стилю сайта -->
+    <link href="https://googleapis.com" rel="stylesheet">
+    <link href="{% static 'profile_menu.css' %}" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* Светлый приятный фон страницы */
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Центрируем карточку на экране, если она открывается без меню, 
+           либо используем стандартные отступы */
+        .success-container {
+            min-height: calc(100vh - 100px); /* Учитываем высоту шапки */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        /* Стили самой карточки */
+        .success-card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 40px 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03), 0 2px 8px rgba(0, 0, 0, 0.02);
+            max-width: 450px;
+            width: 100%;
+            text-align: center;
+            animation: fadeInUp 0.4s ease-out; /* Плавное появление */
+        }
+
+        /* Красивая анимированная галочка */
+        .success-icon-box {
+            width: 72px;
+            height: 72px;
+            background-color: #f0fdf4; /* Нежно-зеленый фон */
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px auto;
+        }
+
+        .success-icon {
+            color: #16a34a; /* Насыщенный зеленый для самой галочки */
+            font-size: 32px;
+            font-weight: bold;
+        }
+
+        .success-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #1e293b;
+            margin: 0 0 12px 0;
+        }
+
+        .success-text {
+            font-size: 15px;
+            color: #64748b;
+            line-height: 1.5;
+            margin: 0 0 32px 0;
+        }
+
+        /* Кнопка возврата в личный кабинет */
+        .btn-back {
+            display: inline-block;
+            background: #2b569a; /* Цвет вашей основной кнопки «Сохранить» */
+            color: #ffffff;
+            text-decoration: none;
+            padding: 14px 28px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            width: 100%;
+            box-sizing: border-box;
+            transition: background 0.2s, transform 0.1s;
+        }
+
+        .btn-back:hover {
+            background: #1e3d6f;
+        }
+
+        .btn-back:active {
+            transform: scale(0.98);
+        }
+
+        /* Анимация появления */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Подключаем ваше стандартное меню профиля, если оно нужно на этой странице -->
+    {% include 'profile_menu.html' %}
+
+    <div class="success-container">
+        <section class="success-card">
+            
+            <!-- Иконка галочки -->
+            <div class="success-icon-box">
+                <span class="success-icon">✓</span>
+            </div>
+            
+            <!-- Текст сообщения -->
+            <h2 class="success-title">Готово!</h2>
+            <p class="success-text">Вы успешно обновили свои данные. Изменения уже вступили в силу и сохранены в системе.</p>
+            
+            <!-- Ссылка на возврат назад (замените URL на ваш профиль) -->
+            <a href="/profile/settings/" class="btn-back">Вернуться в профиль</a>
+            
+        </section>
+    </div>
+
+</body>
+</html>

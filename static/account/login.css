@@ -1,0 +1,183 @@
+body{
+    font-family: "Noto Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    font-variation-settings: "wdth" 100;
+    background-color: #f7f7f7; /* Перенесли из HTML */
+    margin: 0;
+    padding: 0;
+}
+
+
+
+.slider-form {
+    top:150px;
+    position: relative;
+    max-width: 700px;
+    margin: 0 auto;
+    overflow: hidden;
+    border-radius: 8px;
+    min-height: 600px; /* Задайте нужную высоту вашей формы */
+    box-shadow: 0 4px 20px rgba(30, 80, 150, 0.15);
+}
+
+/* Общие стили для обоих фоновых слоев */
+.form-bg {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-size: cover;
+    background-position: center;
+    /* Время плавного перетекания — 2 секунды */
+    transition: opacity 2000ms ease-in-out;
+    z-index: 1;
+}
+
+/* Первый слой (активный по умолчанию) */
+.bg-1 {
+    background-image: linear-gradient(rgba(50, 130, 200, 0.4), rgba(30, 80, 150, 0.5)), url('/static/media_img/formbg.jpg');
+    opacity: 1;
+}
+
+/* Второй слой (скрыт на старте, ждет своей очереди) */
+.bg-2 {
+    background-image: linear-gradient(rgba(50, 130, 200, 0.4), rgba(30, 80, 150, 0.5)), none;
+    opacity: 0;
+}
+
+/* Контент формы всегда поверх фонов */
+.form-content {
+    position: relative;
+    z-index: 2;
+    padding:10px;
+    background-color:white;
+    min-height:600px;
+    width:350px;
+    top:0;
+}
+
+.messages{
+    z-index:3;
+    position:absolute;
+    top:140px;
+    left:55px;
+}
+
+
+input{
+    display:block;
+    position:absolute;
+    padding:5px;
+    width:250px;
+    margin:35px;
+    border: 1px solid grey;
+    outline:none;
+    border-radius:4px;
+
+}
+
+input:focus {
+    border-color:#1E5096;
+}
+
+input[type='password']{
+    top:250px;
+}
+
+input[type="email"]{
+    top:170px;
+}
+
+
+
+.label_email, .label_password{
+  font-size:15px;
+}
+
+
+
+.label_email{
+    position:absolute;
+    top:183px;
+    left:58px;
+}
+
+.label_password{
+    position:absolute;
+    top:263px;
+    left:58px;
+
+}
+
+.button_login{
+    position:absolute;
+    top:335px;
+    left:46px;
+    width:120px;
+    height:28px;
+    color:white;
+    border:2px solid #1E5096;
+    background-color:#5d90f5;
+    border-radius:4px;
+    transition:0.5s;
+}
+
+.button_login:hover{
+    background-color:white;
+    color:black;
+    cursor: pointer;
+
+}
+
+
+.label_login{
+    position:absolute;
+    display:block;
+    color:black;
+    z-index:3;
+    top:90px;
+    font-size:25px;
+    margin-left:140px;
+    font-weight:normal;
+
+}
+
+
+.div-register-link{
+    position:absolute;
+    top:550px;
+    padding:15px;
+
+}
+.logo_name_site{
+    position:absolute;
+    z-index:3;
+    width:10px;
+    left:40px;
+}
+
+
+.logo{
+    position:absolute;
+    padding:5px;
+    width:25px;
+    height:25px;
+    top:10px;
+    left:-34px;
+    user-select:none;
+}
+
+.name_site{
+    font-family: "Noto Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 100;
+    font-style: normal;
+    font-variation-settings:
+    "wdth" 100;
+}
+
+.reset_password{
+    position:absolute;
+    top:341px;
+    left:200px;
+}

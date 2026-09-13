@@ -1,0 +1,219 @@
+        :root {
+            --bg-color:#ecebeb;
+            --card-bg: #ffffff;
+            --text-main: #2c3e50;
+            --text-muted: #7f8c8d;
+            --primary: #4F46E5;;
+            --primary-hover: #0077b6;
+            --success: #2ecc71;
+            --warning: #f1c40f;
+            --danger: #e74c3c;
+            --border-radius: 12px;
+            --shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        
+        .header {
+            max-width: 1200px;
+            margin: 0 auto 30px auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #fcf8f8;
+            padding: 15px 30px;
+            border-radius: var(--border-radius);
+            color: rgb(22, 22, 22);
+            box-shadow: var(--shadow);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .logo span {
+            color: var(--primary)
+        }
+
+        #home_button{
+            color: var(--primary);
+            text-decoration: None;
+            transition: 1s;
+            
+        }
+
+        #home_button:hover{
+            color: rgb(191, 192, 192);
+            
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 30px;
+        }
+
+        @media (max-width: 900px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .card {
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 25px;
+        }
+
+        .profile-sidebar {
+            text-align: center;
+        }
+
+        .avatar {
+            width: 120px;
+            height: 120px;
+            background: #dfe6e9;
+            border-radius: 50%;
+            margin: 0 auto 15px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            color: var(--text-muted);
+            border: 3px solid var(--primary);
+        }
+
+        .user-name {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .user-status {
+            display: inline-block;
+            background: rgba(46, 204, 113, 0.1);
+            color: var(--success);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .user-status-error{
+            display: inline-block;
+            background: rgba(46, 204, 113, 0.1);
+            color: var(--danger);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .nav-menu {
+            list-style: none;
+            text-align: left;
+        }
+
+        .nav-menu li a {
+            display: block;
+            padding: 12px 15px;
+            color: var(--text-main);
+            text-decoration: none;
+            border-radius: 8px;
+            margin-bottom: 5px;
+            transition: 0.2s;
+        }
+
+        .nav-menu li a:hover, .nav-menu li a.active {
+            background: rgba(0, 180, 216, 0.1);
+            color: var(--primary-hover);
+            font-weight: 600;
+        }
+
+        .nav-menu li a.logout {
+            color: var(--danger);
+        }
+
+        .nav-menu li a.logout:hover {
+            background: rgba(231, 76, 60, 0.1);
+        }
+
+
+/* Контейнер теперь жестко привязан к экрану (всплывает в правом верхнем углу) */
+.messages-wrapper {
+    position: fixed;
+    top: 24px;
+    right: 24px;
+    width: 100%;
+    max-width: 400px; /* Сделаем её чуть компактнее для угла экрана */
+    z-index: 9999; /* Максимальный приоритет, чтобы быть поверх всего */
+    pointer-events: none;
+}
+
+/* Сама плашка уведомления */
+.alert {
+    display: flex;
+    align-items: center;
+    padding: 14px 16px;
+    background-color: rgba(255, 245, 245, 0.95); /* Чуть плотнее фон */
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(254, 215, 215, 0.9);
+    border-radius: 12px;
+    color: #c53030;
+    font-size: 14px;
+    font-weight: 500;
+    box-sizing: border-box;
+    pointer-events: auto;
+    
+    /* Красивая объёмная тень для всплывающего окна */
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    
+    /* Анимация: при появлении она плавно вылетает справа */
+    animation: slideIn 0.3s ease forwards;
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+/* Анимация вылета */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Класс растворения, который добавляет JavaScript через 9.5 секунд */
+.alert-fade-out {
+    opacity: 0;
+    transform: translateY(-20px); /* Плавный уход вверх при исчезновении */
+}
+
+/* Стили для иконки, текста и крестика остаются прежними */
+.alert-icon { margin-right: 10px; font-size: 16px; }
+.alert-text { flex-grow: 1; line-height: 1.4; }
+.alert-close { background: none; border: none; color: inherit; font-size: 20px; cursor: pointer; margin-left: 10px; opacity: 0.5; }
+.alert-close:hover { opacity: 1; }
